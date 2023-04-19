@@ -40,15 +40,20 @@ let jobPosting = (req,res) => {
     };
     
     let searchJobs = (req, res) => {
-      const keyword = req.query.title;
+      console.log(req.body)
+      const keyword = String(req.body.keyword); // Convert the value to a string
       Job.find({ title: { $regex: keyword, $options: "i" } })
-        .then((jobs) => {
-          res.status(200).json({ jobs });
-        })
-        .catch((err) => {
-          res.status(400).json({ err: err, message: "Error searching for jobs" });
-        });
-    };
+          .then((jobs) => {
+              res.status(200).json({ jobs });
+          })
+          .catch((err) => {
+              console.error('Error searching for jobs:', err);
+              res.status(400).json({ err: err, message: "Error searching for jobs" });
+          });
+
+  };
+  
+  
     
     module.exports = {
       getAllJobs,

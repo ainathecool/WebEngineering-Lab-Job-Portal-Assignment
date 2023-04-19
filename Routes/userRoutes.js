@@ -10,11 +10,12 @@ const userRouter = require("express").Router();
 
 
 userRouter.get("/JobListening", verifyUserLoggedIn, checkStudent, getAllJobs);
-userRouter.get("/SearchJobs", verifyUserLoggedIn, checkStudent, searchJobs);
+userRouter.post("/SearchJobs", verifyUserLoggedIn, checkStudent, searchJobs);
 
 
-userRouter.get("/signup", signup)
-userRouter.get("/login", login)
+
+userRouter.post("/signup", signup)
+userRouter.post("/login", login)
 //userRouter.post("/checkStudent", checkStudent)
 //userRouter.post("/checkEmployer", checkEmployer)
 //userRouter.post("/checkPlacementOfficer", checkPlacementOfficer)

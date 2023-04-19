@@ -2,7 +2,7 @@ const User = require("../Models/userModel")
 const jwt = require("jsonwebtoken");
 
 let signup = (req,res) => {
-    
+    console.log(req.body)
     let {username, password, name, email, role, contact} = req.body;
 
     let user = new User({
@@ -19,7 +19,7 @@ let signup = (req,res) => {
             res.status(400).json({"message": "User not created"})
         }
         else{
-            res.status(200).json({"Message": "User created successfully", user:user})
+            res.status(201).json({"Message": "User created successfully", user:user})
         }
 
     }).catch(err =>{
@@ -29,13 +29,14 @@ let signup = (req,res) => {
     }
 
 
+
 let login = (req,res) =>{
     let{username,password} = req.body;
     User.findOne({username:username}).then(founduser=>{
         if(!founduser){
             res.status(404).send({"Message":"User not exist"})
         }else{
-            if(password=founduser.password){
+            if(password==founduser.password){
                 let token = jwt.sign({
                     id: founduser._id,
                     role: founduser.role,
@@ -51,21 +52,51 @@ let login = (req,res) =>{
         res.status(500).send({e:e})
     });
 }
+var verifyUserLoggedIn = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-var verifyUserLoggedIn = (req,res,next) =>{
-    let token = req.headers['token'];
+    if (!token) {
+        return res.status(401).send({ "Message": "You are not authorized" });
+    }
+
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-        if(!err){
+        if (!err) {
             req.decoded = decoded;
-            console.log(req);
+            //console.log(req);
             next();
-        }else{
-            res.status(401).send({"Message":"You are not authorised"})
+        } else {
+            res.status(401).send({ "Message": "You are not authorized" });
         }
-
-    })
-
+    });
 }
+
+// In userController file
+// var verifyUserLoggedIn = (req, res, next) => {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+
+//     console.log('Token from headers:', token); // Add this log
+
+//     if (!token) {
+//         return res.status(401).send({ "Message": "You are not authorized" });
+//     }
+
+//     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+//         console.log('JWT verify error:', err); // Add this log
+//         console.log('JWT decoded payload:', decoded); // Add this log
+
+//         if (!err) {
+//             req.decoded = decoded;
+//             console.log(req);
+//             next();
+//         } else {
+//             res.status(401).send({ "Message": "You are not authorized" });
+//         }
+//     });
+// }
+
+
 
 
 
