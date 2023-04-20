@@ -71,30 +71,6 @@ var verifyUserLoggedIn = (req, res, next) => {
     });
 }
 
-// In userController file
-// var verifyUserLoggedIn = (req, res, next) => {
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1];
-
-//     console.log('Token from headers:', token); // Add this log
-
-//     if (!token) {
-//         return res.status(401).send({ "Message": "You are not authorized" });
-//     }
-
-//     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-//         console.log('JWT verify error:', err); // Add this log
-//         console.log('JWT decoded payload:', decoded); // Add this log
-
-//         if (!err) {
-//             req.decoded = decoded;
-//             console.log(req);
-//             next();
-//         } else {
-//             res.status(401).send({ "Message": "You are not authorized" });
-//         }
-//     });
-// }
 
 
 

@@ -16,9 +16,7 @@ userRouter.post("/SearchJobs", verifyUserLoggedIn, checkStudent, searchJobs);
 
 userRouter.post("/signup", signup)
 userRouter.post("/login", login)
-//userRouter.post("/checkStudent", checkStudent)
-//userRouter.post("/checkEmployer", checkEmployer)
-//userRouter.post("/checkPlacementOfficer", checkPlacementOfficer)
+
 
 userRouter.get("/Student", verifyUserLoggedIn, checkStudent, (req,res, next)=>{
     res.status(201).send({"Message":"Student Browser"})
